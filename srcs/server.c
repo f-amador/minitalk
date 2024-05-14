@@ -33,13 +33,17 @@ void	ft_putnbr(int n)
 
 void ft_sig_handle(int sig)
 {
-	int i;
-	char c;
+	static int i;
+	static char c;
 
-	i = 0;
-	c = 0;
-	printf("%d\n", (sig >> 1 & 1));
-
+	i++;
+	c = (c << 1) + (sig >> 1 & 1);
+	if (i == 8)
+	{
+		write(1, &c, 1);
+		c = 0;
+		i = 0;
+	}
 }
 
 int main(void)
@@ -51,6 +55,7 @@ int main(void)
 	sa.sa_flags = 0;
 	pid = getpid();
 	ft_putnbr(pid);
+	write(1, "\n", 1);
 	if (sigaction(SIGUSR1, &sa, NULL) || sigaction(SIGUSR2, &sa, NULL))
 	{
 		printf("closing server...\n");
@@ -58,7 +63,6 @@ int main(void)
 	}
 	while (1)
 	{
-		printf("waiting for signal!\n");
-		usleep(500000000);
+		usleep(500);
 	}
 }
