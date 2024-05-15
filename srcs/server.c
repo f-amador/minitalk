@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framador <framador@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/15 17:42:22 by framador          #+#    #+#             */
+/*   Updated: 2024/05/15 17:59:23 by framador         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minitalk.h"
 
-void	ft_putchar_fd(char c, int fd)
+static void	ft_putchar(char c)
 {
-	write(fd , &c, 1);
+	write(1, &c, 1);
 }
 
-void	ft_putstr(char *str)
+static void	ft_putstr(char *str)
 {
 	if (!str)
 		return ;
@@ -13,13 +25,13 @@ void	ft_putstr(char *str)
 		write(1, str++, 1);
 }
 
-void	ft_putnbr(int n)
+static void	ft_putnbr(int n)
 {
 	if (n == -2147483648)
 		return (ft_putstr("-2147483648"));
 	if (n < 0)
 	{
-		ft_putchar_fd('-', 1);
+		ft_putchar('-');
 		ft_putnbr(-n);
 	}
 	else if (n > 9)
@@ -28,13 +40,13 @@ void	ft_putnbr(int n)
 		ft_putnbr(n % 10);
 	}
 	else
-		ft_putchar_fd(n + '0', 1);
+		ft_putchar(n + '0');
 }
 
-void ft_sig_handle(int sig)
+static void	ft_sig_handle(int sig)
 {
-	static int i;
-	static char c;
+	static int	i;
+	static char	c;
 
 	i++;
 	c = (c << 1) + (sig >> 1 & 1);
@@ -46,10 +58,10 @@ void ft_sig_handle(int sig)
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	pid_t	pid;
-	struct sigaction sa;
+	pid_t				pid;
+	struct sigaction	sa;
 
 	sa.sa_handler = ft_sig_handle;
 	sa.sa_flags = 0;
