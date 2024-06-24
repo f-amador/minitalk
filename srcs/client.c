@@ -104,7 +104,7 @@ int	main(int ac, char *av[])
 	if (ac == 3)
 	{
 		pid = ft_atoi(av[1]);
-		if (pid < 1 || !(av[2][0]))
+		if (pid < 1)
 			exit(write(2, "INVALID PID\n", 12));
 		ft_sendlen(av[2], pid);
 		ft_sendsig(av[2], pid);
