@@ -12,49 +12,56 @@
 
 #include "../include/minitalk.h"
 
-static void	ft_putchar(char c)
+static int	g_bits;
+
+void	ft_receivelen(int *len, int sig)
 {
-	write(1, &c, 1);
+	*len = (*len << 1) + (sig >> 1 & 1);
 }
 
-static void	ft_putstr(char *str)
+void	ft_resetstr(char *str, int *len, int *j, pid_t pid)
 {
+	g_bits = 0;
+	*len = 0;
+	*j = 0;
+	ft_putstr(str);
+	free(str);
+	kill(pid, SIGUSR1);
+}
+
+static void	ft_allocstr(char **str, int len)
+{
+	*str = (char *)malloc((len + 1) * sizeof(char));
 	if (!str)
-		return ;
-	while (*str)
-		write(1, str++, 1);
+		exit (1);
+	(*str)[len] = 0;
 }
 
-static void	ft_putnbr(int n)
-{
-	if (n == -2147483648)
-		return (ft_putstr("-2147483648"));
-	if (n < 0)
-	{
-		ft_putchar('-');
-		ft_putnbr(-n);
-	}
-	else if (n > 9)
-	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
-	}
-	else
-		ft_putchar(n + '0');
-}
-
-static void	ft_sig_handle(int sig)
+static void	ft_sig_handle(int sig, siginfo_t *info, void *context)
 {
 	static int	i;
+	static int	j;
+	static int	len;
 	static char	c;
+	static char	*str;
 
-	i++;
-	c = (c << 1) + (sig >> 1 & 1);
-	if (i == 8)
+	(void)context;
+	if (g_bits++ < 32)
+		ft_receivelen(&len, sig);
+	else
 	{
-		write(1, &c, 1);
-		c = 0;
-		i = 0;
+		if (g_bits == 33)
+			ft_allocstr(&str, len);
+		i++;
+		c = (c << 1) + (sig >> 1 & 1);
+		if (i == 8)
+		{
+			str[j++] = c;
+			if (!c)
+				ft_resetstr(str, &len, &j, info->si_pid);
+			c = 0;
+			i = 0;
+		}
 	}
 }
 
@@ -63,18 +70,17 @@ int	main(void)
 	pid_t				pid;
 	struct sigaction	sa;
 
-	sa.sa_handler = ft_sig_handle;
-	sa.sa_flags = 0;
+	sa.sa_sigaction = ft_sig_handle;
+	sa.sa_flags = SA_SIGINFO;
 	pid = getpid();
 	ft_putnbr(pid);
 	write(1, "\n", 1);
 	if (sigaction(SIGUSR1, &sa, NULL) || sigaction(SIGUSR2, &sa, NULL))
 	{
-		printf("closing server...\n");
+		ft_putstr("closing server...\n");
 		exit(0);
 	}
 	while (1)
 	{
-		usleep(500);
 	}
 }

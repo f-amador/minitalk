@@ -4,9 +4,9 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 SRC_DIR = srcs
 OBJ_DIR = objs
-SRC1 = $(SRC_DIR)/server.c
+SRC1 = $(SRC_DIR)/server.c $(SRC_DIR)/utils.c
 SRC2 = $(SRC_DIR)/client.c
-OBJ1 = $(OBJ_DIR)/server.o
+OBJ1 = $(OBJ_DIR)/server.o $(OBJ_DIR)/utils.o
 OBJ2 = $(OBJ_DIR)/client.o
 
 all : $(CLIENT) $(SERVER)
