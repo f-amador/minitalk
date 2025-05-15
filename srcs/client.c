@@ -6,7 +6,7 @@
 /*   By: framador <framador@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:36:44 by framador          #+#    #+#             */
-/*   Updated: 2025/05/15 12:17:28 by framador         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:17:53 by framador         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,3 +118,4 @@ int	main(int ac, char *av[])
 	else
 		return (write(2, "Error! Use: ./client PID str\n", 29));
 }
+
