@@ -8,8 +8,7 @@
 
 ## Project Structure
 
+<img src="structure.svg" alt="Project Structure" width="400">
 
 
 
-
-![Project Structure](https://user-images.githubusercontent.com/.../minitalk-structure.png)
