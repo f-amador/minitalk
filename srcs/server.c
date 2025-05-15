@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framador <framador@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: framador <framador@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:42:22 by framador          #+#    #+#             */
-/*   Updated: 2024/05/15 17:59:23 by framador         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:15:34 by framador         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	ft_sig_handle(int sig, siginfo_t *info, void *context)
 			i = 0;
 		}
 	}
+	kill(info->si_pid, SIGUSR2);
 }
 
 int	main(void)

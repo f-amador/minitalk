@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bruda-si <bruda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: framador <framador@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:36:44 by framador          #+#    #+#             */
-/*   Updated: 2024/05/27 15:05:14 by bruda-si         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:17:28 by framador         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ static void	ft_sendsig(char *str, pid_t pid)
 
 static void	ft_sighandler(int sig)
 {
-	(void)sig;
-	write(1, "Message delivered successfully\n", 31);
-	exit(0);
+	if (sig == SIGUSR1)
+	{
+		write(1, "Message delivered successfully\n", 31);
+		exit(0);
+	}
 }
 
 int	main(int ac, char *av[])
@@ -110,6 +112,7 @@ int	main(int ac, char *av[])
 		ft_sendsig(av[2], pid);
 		while (1)
 		{
+			sleep(5);
 		}
 	}
 	else
