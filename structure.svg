@@ -1,0 +1,37 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="10" width="280" height="280" rx="5" fill="#f6f8fa" stroke="#24292e" stroke-width="2"/>
+  
+  <!-- Root Folder -->
+  <rect x="30" y="30" width="240" height="40" rx="3" fill="#24292e"/>
+  <text x="150" y="55" font-family="Arial" font-size="14" fill="white" text-anchor="middle">minitalk/</text>
+  
+  <!-- Makefile -->
+  <rect x="50" y="80" width="200" height="30" rx="3" fill="#e1e4e8"/>
+  <text x="150" y="100" font-family="Arial" font-size="12" text-anchor="middle">📄 Makefile</text>
+  
+  <!-- Include Folder -->
+  <rect x="50" y="120" width="90" height="30" rx="3" fill="#e1e4e8"/>
+  <text x="95" y="140" font-family="Arial" font-size="12" text-anchor="middle">📁 include/</text>
+  
+  <!-- Header File -->
+  <rect x="70" y="150" width="160" height="30" rx="3" fill="#f6f8fa"/>
+  <text x="150" y="170" font-family="Arial" font-size="12" text-anchor="middle">└── 📄 minitalk.h</text>
+  
+  <!-- Src Folder -->
+  <rect x="160" y="120" width="90" height="30" rx="3" fill="#e1e4e8"/>
+  <text x="205" y="140" font-family="Arial" font-size="12" text-anchor="middle">📁 srcs/</text>
+  
+  <!-- Source Files -->
+  <rect x="180" y="150" width="160" height="30" rx="3" fill="#f6f8fa"/>
+  <text x="260" y="170" font-family="Arial" font-size="12" text-anchor="middle">├── 📄 client.c</text>
+  
+  <rect x="180" y="180" width="160" height="30" rx="3" fill="#f6f8fa"/>
+  <text x="260" y="200" font-family="Arial" font-size="12" text-anchor="middle">└── 📄 server.c</text>
+  
+  <!-- Binaries -->
+  <rect x="50" y="210" width="200" height="30" rx="3" fill="#d4edff"/>
+  <text x="150" y="230" font-family="Arial" font-size="12" text-anchor="middle">🖥️ client (binary)</text>
+  
+  <rect x="50" y="240" width="200" height="30" rx="3" fill="#d4edff"/>
+  <text x="150" y="260" font-family="Arial" font-size="12" text-anchor="middle">🖥️ server (binary)</text>
+</svg>
