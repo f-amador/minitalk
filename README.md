@@ -16,16 +16,23 @@
 
 ## How It Works
 
-### Communication Protocol
+## 🔄 Communication Theory
 
-1. **Encoding**:
-   - Each character is broken down into 8 bits
-   - `SIGUSR1` represents binary `1`
-   - `SIGUSR2` represents binary `0`
+### **Signal-Based IPC Overview**
+minitalk demonstrates **UNIX signal inter-process communication (IPC)** using:
+- `SIGUSR1` → Binary `1`
+- `SIGUSR2` → Binary `0`
 
-2. **Transmission**:
-   - Client sends signals sequentially (MSB first)
-   - Server reconstructs characters from signal patterns
-   - Null terminator indicates end of message
+### **Client-Server Workflow**
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
 
-### Server Implementation
+    Note over Server: Starts first<br>Displays PID
+    Client->>Server: 1. Sends message length (32 bits)
+    Server-->>Client: SIGUSR2 (ACK each bit)
+    Client->>Server: 2. Transmits each character (8 bits/char)
+    Client->>Server: 3. Sends null terminator
+    Server-->>Client: SIGUSR1 (ACK)
+    Note over Client: Exits on acknowledgment
