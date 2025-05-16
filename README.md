@@ -24,15 +24,43 @@ minitalk demonstrates **UNIX signal inter-process communication (IPC)** using:
 - `SIGUSR2` → Binary `0`
 
 ### **Client-Server Workflow**
+Each character is split into 8 bits (MSB-first):
+Key Technical Concepts
+1. Bitwise Transmission
+Character	Binary Representation	Signal Sequence
+'A' (65)	01000001	SIGUSR2 SIGUSR1 SIGUSR2 (x5) SIGUSR1
+2. Synchronization
+c
+
+// Client timing control
+usleep(100); // Between each bit transmission
+
+3. Protocol Phases
+Phase	Data Sent	Purpose
+1	32-bit integer	Message length
+2	N × 8-bit chars	Message content
+3	8-bit \0	End-of-message marker
+Limitations
+Limitation	Implication
+No encryption	Signals can be intercepted
+No flow control	Potential signal queue overflow
+UNIX-only	Incompatible with Windows subsystems
+No error correction	Relies on OS signal delivery
+Visualization Example
+
+Client: "Hi"
+1. Send length (2): 000...00010 (32 bits)
+2. Send 'H': 01001000
+3. Send 'i': 01101001
+4. Send '\0': 00000000
+
 ```mermaid
 sequenceDiagram
     participant Client
     participant Server
-
-    Note over Server: Starts first<br>Displays PID
-    Client->>Server: 1. Sends message length (32 bits)
-    Server-->>Client: SIGUSR2 (ACK each bit)
-    Client->>Server: 2. Transmits each character (8 bits/char)
-    Client->>Server: 3. Sends null terminator
-    Server-->>Client: SIGUSR1 (ACK)
-    Note over Client: Exits on acknowledgment
+    Client->>Server: SIGUSR1 (bit 1)
+    Server-->>Client: SIGUSR2 (ACK)
+    Client->>Server: SIGUSR2 (bit 0)
+    Server-->>Client: SIGUSR2 (ACK)
+    Client->>Server: SIGUSR1 (final bit)
+    Server-->>Client: SIGUSR1 (Message complete)
